@@ -1,0 +1,5 @@
+target
+Cargo.lock
+
+# Ignore any SDL/OpenGL DLL files copied into the root path on Windows
+*.dll

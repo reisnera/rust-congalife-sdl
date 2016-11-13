@@ -1,0 +1,8 @@
+[package]
+name = "congalife-sdl"
+version = "0.1.0"
+authors = ["apostrophest <stephen@chomadoma.net>"]
+
+[dependencies]
+sdl2 = "0.25"
+congalife = { path = "../rust-congalife", version = "0.1.0" }
