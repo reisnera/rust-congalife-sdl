@@ -41,16 +41,14 @@ pub fn main() {
     
     let mut event_pump = sdl_context.event_pump().unwrap();
 
-    let _timer;
-
-    {
+    let _timer = {
         let event_sys = event_sys.clone();
         let timer_callback = move || {
             event_sys.push_custom_event(TimerPulseEvent {}).unwrap();
             frame_time_in_ms
         };
-        _timer = timer_sys.add_timer(frame_time_in_ms, Box::new(timer_callback));
-    }
+        timer_sys.add_timer(frame_time_in_ms, Box::new(timer_callback))
+    };
 
 
     'running: loop {
