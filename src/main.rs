@@ -7,14 +7,14 @@ use sdl2::pixels::Color;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 
-use congalife::{Game, State, advance};
+use congalife::{Game, State};
 
 struct TimerPulseEvent {}
 
 pub fn main() {
-    let screen_width = 1024;
-    let screen_height = 1024;
-    let game_size: usize = 512;
+    let screen_width = 512;
+    let screen_height = 512;
+    let game_size: usize = 25;
     let frame_time_in_ms = 1000 / 40 as u32;
 
     let sdl_context = sdl2::init().unwrap();
@@ -35,7 +35,7 @@ pub fn main() {
     let mut texture = renderer.create_texture_streaming(
         PixelFormatEnum::RGB24, game_size as u32, game_size as u32).unwrap();
 
-    let mut game: Game = Game::new(game_size);
+    let game: Game = Game::new(game_size);
 
     renderer.set_draw_color(Color::RGB(255, 0, 255));
     
@@ -55,7 +55,7 @@ pub fn main() {
         for event in event_pump.poll_iter() {
             if event.is_user_event() {
                 let _timer_pulse = event.as_user_event_type::<TimerPulseEvent>().unwrap();
-                advance(&mut game);
+                game.advance();
             }
 
             match event {
@@ -67,7 +67,7 @@ pub fn main() {
         }
 
         texture.with_lock(None, |buffer: &mut [u8], pitch: usize| {
-            let current = game.get_current();
+            let current = game.get_current_read_lock();
             for y in 0..game_size {
                 for x in 0..game_size {
                     let channel_value = match current[y * game.size + x] {
