@@ -16,7 +16,8 @@ pub fn main() {
     let screen_width = 512;
     let screen_height = 512;
     let game_size: usize = 256;
-    let update_time_in_ms = 1000 / 40 as u64;
+    let target_logic_frames_per_second = 40;
+    let update_time_in_ms = 1000 / target_logic_frames_per_second as u64;
 
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
@@ -32,7 +33,7 @@ pub fn main() {
     let mut texture = renderer.create_texture_streaming(
         PixelFormatEnum::RGB24, game_size as u32, game_size as u32).unwrap();
 
-    let game = Game::new(game_size);
+    let game = Game::new(game_size, 0.06);
 
     renderer.set_draw_color(Color::RGB(255, 0, 255));
     
@@ -45,7 +46,7 @@ pub fn main() {
         thread::spawn(move || {
             loop {
                 thread::sleep(update_interval);
-                game.advance();
+                game.advance_toroidally();
             }
         })
     };
