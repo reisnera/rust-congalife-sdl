@@ -45,8 +45,13 @@ pub fn main() {
         
         thread::spawn(move || {
             loop {
-                thread::sleep(update_interval);
-                game.advance_toroidally();
+                let before = time::Instant::now();
+                game.advance();
+                let elapsed = time::Instant::now() - before;
+
+                if elapsed < update_interval {
+                    thread::sleep(update_interval - elapsed);
+                }
             }
         })
     };
