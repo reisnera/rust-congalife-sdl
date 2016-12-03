@@ -67,10 +67,10 @@ pub fn main() {
         }
 
         texture.with_lock(None, |buffer: &mut [u8], pitch: usize| {
-            let current = game.get_current_read_lock();
+            let current_guard = game.get_current_read_lock();
             for y in 0..game_size {
                 for x in 0..game_size {
-                    let channel_value = match current[y * game.size + x] {
+                    let channel_value = match current_guard[y * game.size + x].state {
                         State::Dead => 0,
                         State::Alive => 255
                     };
