@@ -30,10 +30,10 @@ pub fn main() {
 
     let mut renderer = window.renderer().build().unwrap();
 
-    let mut texture = renderer.create_texture_streaming(
-        PixelFormatEnum::RGB24, game_size as u32, game_size as u32).unwrap();
-
     let game = Game::new(game_size, 0.06);
+
+    let mut texture = renderer.create_texture_streaming(
+        PixelFormatEnum::RGB24, game.size() as u32, game.size() as u32).unwrap();
 
     renderer.set_draw_color(Color::RGB(255, 0, 255));
     
@@ -68,9 +68,9 @@ pub fn main() {
 
         texture.with_lock(None, |buffer: &mut [u8], pitch: usize| {
             let current_guard = game.get_current_read_lock();
-            for y in 0..game_size {
-                for x in 0..game_size {
-                    let channel_value = match current_guard[y * game.size + x].alive {
+            for y in 0..game.size() {
+                for x in 0..game.size() {
+                    let channel_value = match current_guard[y * game.size() + x] {
                         false => 0,
                         true => 255
                     };
