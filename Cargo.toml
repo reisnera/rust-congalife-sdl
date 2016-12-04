@@ -5,4 +5,4 @@ authors = ["apostrophest <stephen@chomadoma.net>"]
 
 [dependencies]
 sdl2 = "0.25"
-congalife = { path = "../rust-congalife", version = "0.2.0" }
+congalife = { path = "../rust-congalife", version = "0.3.0" }
