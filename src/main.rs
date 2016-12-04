@@ -10,12 +10,12 @@ use sdl2::pixels::Color;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 
-use congalife::{Game, State};
+use congalife::Game;
 
 pub fn main() {
     let screen_width = 512;
     let screen_height = 512;
-    let game_size: usize = 256;
+    let game_size: usize = 128;
     let target_logic_frames_per_second = 40;
     let update_time_in_ms = 1000 / target_logic_frames_per_second as u64;
 
@@ -70,9 +70,9 @@ pub fn main() {
             let current_guard = game.get_current_read_lock();
             for y in 0..game_size {
                 for x in 0..game_size {
-                    let channel_value = match current_guard[y * game.size + x].state {
-                        State::Dead => 0,
-                        State::Alive => 255
+                    let channel_value = match current_guard[y * game.size + x].alive {
+                        false => 0,
+                        true => 255
                     };
                     let offset = y*pitch + x*3;
                     buffer[offset + 0] = channel_value;
