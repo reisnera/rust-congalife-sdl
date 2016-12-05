@@ -9,7 +9,7 @@ use sdl2::rect::Rect;
 use sdl2::pixels::Color;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
-use sdl2::mouse::Mouse;
+use sdl2::mouse::MouseButton;
 
 use congalife::{Game, State};
 
@@ -63,7 +63,7 @@ pub fn main() {
                 Event::Quit {..} | Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
                     break 'running
                 },
-                Event::MouseButtonDown { mouse_btn: Mouse::Left, x, y, .. } => {
+                Event::MouseButtonDown { mouse_btn: Some(MouseButton::Left), x, y, .. } => {
                     let game_x = ((x as f32 / screen_width as f32) * game.size() as f32) as usize;
                     let game_y = ((y as f32 / screen_height as f32) * game.size() as f32) as usize;
                     game.set_cell(game_x, game_y, State::Alive);
